@@ -35,7 +35,6 @@ on join:
 	set {Shootdagger..%player%} to false
 	disallow flight to player
 	set the player's walk speed to 0.2
-	set player's max health to 10
 	execute console command "attribute %player% minecraft:generic.attack_speed base set 4"
 	if {Bliss.Joined.%player%} is not true:
 		set {Bliss.Upgraded.%player%} to false
@@ -1962,29 +1961,6 @@ every 5 ticks:
 	loop all players:
 		loop-player's gamemode is creative:
 			allow flight to loop-player
-		if {HeartLocked.%loop-player%} is not true: # Hearts Limits
-			if {Life.Drained.Group.Time.%loop-player%} < 0:
-				if {Life.Drained.Solo.Time.%loop-player%} < 0:
-					if {Life.CoL.Group.Time.%loop-player%} < 0:
-						set loop-player's max health to 10
-					if {Life.CoL.Group.Time.%loop-player%} > 1:
-						set loop-player's max health to 14
-				if {Life.Drained.Solo.Time.%loop-player%} > 1:
-					if {Life.CoL.Group.Time.%loop-player%} < 0:
-						set loop-player's max health to 6
-					if {Life.CoL.Group.Time.%loop-player%} > 1:
-						set loop-player's max health to 10
-			if {Life.Drained.Group.Time.%loop-player%} > 1:
-				if {Life.Drained.Solo.Time.%loop-player%} < 0:
-					if {Life.CoL.Group.Time.%loop-player%} < 0:
-						set loop-player's max health to 8
-					if {Life.CoL.Group.Time.%loop-player%} > 1:
-						set loop-player's max health to 12
-				if {Life.Drained.Solo.Time.%loop-player%} > 1:
-					if {Life.CoL.Group.Time.%loop-player%} < 0:
-						set loop-player's max health to 4
-					if {Life.CoL.Group.Time.%loop-player%} > 1:
-						set loop-player's max health to 8
 		if {Tag..%loop-player%} < 1: # Life Cooldowns
 			if {LifeMin.%loop-player%} < 1:
 				if {LifeSec.%loop-player%} > 0:
@@ -2903,8 +2879,6 @@ every 1 second: # 1 second loops below
 			apply regeneration 1 without particles whilst hiding the potion icon to loop-player for 1 seconds replacing the existing effect
 		if loop-player is within 4 blocks around {Fire.Cozy.Location::*}:
 			light loop-player on fire
-		if {Bliss.Upgraded.%loop-player%} is true: # Upgraded Glowing
-			apply glowing 1 without particles whilst hiding the potion icon to loop-player for 2 seconds replacing the existing effect
 		if {Tag..%loop-player%} < 1: # Flux Haste Passive
 			if {-fluxBroken::%loop-player's uuid%} > 5:
 				apply haste 1 without particles to loop-player for 2 seconds replacing the existing effect
@@ -3013,7 +2987,6 @@ every 1 second: # 1 second loops below
 		remove 1 from {FluxSec3.%loop-player%}
 		if {Flux.Freeze.%loop-player%} > 0:
 			remove 1 from {Flux.Freeze.%loop-player%}
-			apply glowing 1 without particles whilst hiding the potion icon to loop-player for 1 seconds replacing the existing effect
 		if {FluxSec.%loop-player%} is -1:
 			remove 1 from {FluxMin.%loop-player%}
 			set {FluxSec.%loop-player%} to 59
@@ -3227,7 +3200,6 @@ on drop prismarine shard:
 				#set {Astra.Horse::%player's uuid%}'s movement speed attribute to 0.243
 				set {Astra.Horse::%player's uuid%}'s movement speed attribute to 0.3
 				set {Astra.Horse::%player's uuid%}'s jump strength attribute to 1.2
-				set {Astra.Horse::%player's uuid%}'s max health to 53
 				tame {Astra.Horse::%player's uuid%} to the player
 				execute console command "attribute %uuid of {Astra.Horse::%player's uuid%}% horse.jump_strength base set 1.2"
 				make {Astra.Horse::%player's uuid%} invisible
@@ -3258,7 +3230,6 @@ on drop amethyst shard:
 				#set {Astra.Horse::%player's uuid%}'s movement speed attribute to 0.243
 				set {Astra.Horse::%player's uuid%}'s movement speed attribute to 0.3
 				set {Astra.Horse::%player's uuid%}'s jump strength attribute to 1.2
-				set {Astra.Horse::%player's uuid%}'s max health to 53
 				tame {Astra.Horse::%player's uuid%} to the player
 				execute console command "attribute %uuid of {Astra.Horse::%player's uuid%}% horse.jump_strength base set 1.2"
 				make {Astra.Horse::%player's uuid%} invisible
@@ -5644,10 +5615,6 @@ on damage:
 				set {LifeSec3.%attacker%} to 15
 				set {LifeMin3.%attacker%} to 1
 				set {life.cooldown3.%attacker%} to true
-				if victim's health > 3:
-					set victim's max health to victim's health
-				else:
-					set victim's max health to 3
 				loop 5 times:
 					loop 10 times:
 						set {_attacker} to location 0.5 metres above attacker
@@ -5658,7 +5625,6 @@ on damage:
 						wait 0.1 seconds	
 
 				wait 15 seconds
-				set victim's max health to 10
 				set {HeartLocked.%victim%} to false
 					
 on left click:
